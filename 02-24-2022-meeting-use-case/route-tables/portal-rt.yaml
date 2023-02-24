@@ -2,11 +2,13 @@
 apiVersion: networking.gloo.solo.io/v2
 kind: RouteTable
 metadata:
- name: portal-rt
- namespace: istio-gateway-ns
+  name: portal-rt
+  namespace: istio-gateway-ns
 spec:
   hosts:
-    - "bank.portal.io"
+  - "bank.portal.io"
+  virtualGateways:
+  - name: north-south-gw
   defaultDestination:
     port:
       number: 9080
@@ -15,21 +17,28 @@ spec:
       namespace: gloo-mesh
       cluster: cluster-1
   http:
-  - forwardTo:
+  - forwardTo: {}
     name: authn
     labels:
       oauth: "true" # apply ext auth policy
     matchers:
-      - uri:
-         prefix: /v1/login
-      - uri:
-         prefix: /v1/logout
-  - forwardTo:
+    - uri:
+        prefix: /v1/login
+    - uri:
+        prefix: /v1/logout
+    - uri:
+        prefix: /v1/me
+    - uri:
+        prefix: /v1/api-keys
+    - headers:
+      # this is a custom value (if needed)
+      - name: jwt
+      # this is the default value
+      - name: id_token
+  - forwardTo: {}
     name: no-auth
     matchers:
-      - uri:
-          prefix: /v1/login
-      - uri:
-          prefix: /v1/logout  
-  virtualGateways:
-    - name: north-south-gw
+    - uri:
+        prefix: /v1/apis
+    - uri:
+        prefix: /v1/usage-plans

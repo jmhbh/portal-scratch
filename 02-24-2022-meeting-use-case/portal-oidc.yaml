@@ -19,6 +19,52 @@ spec:
           oidcAuthorizationCode:
             appUrl: bank.portal.io
             callbackPath: /callback
+            logoutPath: /v1/logout
+            clientId: ${CLIENT_ID}
+            clientSecretRef:
+              name: oauth
+              namespace: gloo-mesh
+            issuerUrl: ${KEYCLOAK_URL}/auth/realms/master/
+            scopes:
+            - email
+            session:
+              failOnFetchFailure: true
+              cookie:
+                allowRefreshing: true
+              cookieOptions:
+                notSecure: true
+                maxAge: 3600
+            # Customize id token header name. Optional, default is id_token
+            headers:
+              idTokenHeader: jwt
+
+---
+
+apiVersion: security.policy.gloo.solo.io/v2
+kind: ExtAuthPolicy
+metadata:
+  name: portal-oidc-auth
+  namespace: gloo-mesh
+spec:
+  applyToRoutes:
+  - route:
+      labels:
+        oauth: "true"
+  config:
+    server:
+      name: ext-auth-server
+      namespace: gloo-mesh-addons
+      cluster: cluster-1
+    glooAuth:
+      # If no valid
+      booleanExpr: oidc || noAuth
+      configs:
+      - name: oidc
+        oauth2:
+          oidcAuthorizationCode:
+            appUrl: bank.portal.io
+            callbackPath: /callback
+            logoutPath: /v1/logout
             clientId: ${CLIENT_ID}
             clientSecretRef:
               name: oauth
@@ -35,3 +81,5 @@ spec:
                 maxAge: 3600
             headers:
               idTokenHeader: jwt
+      - name: noAuth
+        allowAlways: {}

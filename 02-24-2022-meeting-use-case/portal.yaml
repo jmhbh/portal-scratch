@@ -4,31 +4,37 @@ metadata:
   name: sample-bank-portal
   namespace: gloo-mesh
 spec:
-  visibilityLabel: "bank-portal-api-requires-authn"
   domains:
-    - "bank.portal.io"
+  - "bank.portal.io"
   portalBackendSelector:
-    - selector:
-        namespace: gloo-mesh
-        cluster: cluster-1
+  - selector:
+      namespace: gloo-mesh
+      cluster: cluster-1
   usagePlans:
-    - name: bronze
-      displayName: "Bronze Plan"
-      description: "A basic usage plan"
-    - name: silver
-      displayName: "Silver Plan"
-      description: "A better usage plan"
-    - name: gold
-      displayName: "Gold Plan"
-      description: "The best usage plan!"
+  - name: bronze
+    displayName: "Bronze Plan"
+    description: "A basic usage plan"
+  - name: silver
+    displayName: "Silver Plan"
+    description: "A better usage plan"
+  - name: gold
+    displayName: "Gold Plan"
+    description: "The best usage plan!"
+  # Visibility setting for the APIs in the portal
+  # TODO: think about this more
+  visibility:
+    # Default visibility if the below label is not present
+    default: PUBLIC
+    # If a RT matches these labels, then it's the opposite of the default
+    labels:
+      portal-visibility: private
   apis:
-    - routeTable:
-        labels:
-          - api: customer-api
-    - routeTable:
-        labels:
-          - api: partner-api
+  - routeTable:
+      labels:
+      - portal: sample-bank-portal
+  groupClaimKey: groups
+  # TODO: product question: do we need this, explain the two options (current edge portal does not have this)
   groups:
-    - selector:
-        labels:
-          - portal: sample-bank-portal
+  - selector:
+      labels:
+      - portal: sample-bank-portal

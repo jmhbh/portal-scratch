@@ -3,25 +3,24 @@
 apiVersion: apimanagement.gloo.solo.io/v2
 kind: Group
 metadata:
-  name: partner-group
+  name: customers
   namespace: gloo-mesh
 labels:
   portal: sample-bank-portal
 spec:
   name: partner-group
   description: a group for users accessing the partner APIs
+  # These will be matched against the value of the group claim in the id_token
   groupNames:
-    - partner-group-1
+  - customers
   accessLevel:
+    # Controls visibility
     apis:
-      - routeTable:
-          labels:
-            - api: customer-api
-      - routeTable:
-          name: partner-registration-api 
-          namespace: partners
-          cluster: cluster-1
+    - routeTable:
+        labels:
+          customers-group: true
+    # Controls access
     usagePlans:
-      - name: bronze
-      - name: silver
-      - name: gold
+    - name: bronze
+    - name: silver
+    - name: gold

@@ -5,8 +5,10 @@ metadata:
  name: partner-transaction-api-rt
  namespace: istio-gateway-ns
 labels:
-  bank-portal-api-requires-authn: true # New label to indicate that the portal backend must check for presence of an IdToken before returning this API as a part of any request
-  api: partner-api
+  # New label to indicate that the portal backend must check for presence of an IdToken before returning this API as a part of any request
+  portal-visibility: private
+  portal: sample-bank-portal
+  partners-group: true
 spec:
   hosts:
     - "bank.io"

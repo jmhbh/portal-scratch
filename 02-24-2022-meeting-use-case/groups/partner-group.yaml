@@ -11,16 +11,13 @@ spec:
   name: partner-group
   description: a group for users accessing the partner APIs
   groupNames:
-    - partner-group-1
+  - partners
   accessLevel:
     apis:
-      - routeTable:
-          labels:
-            - api: customer-api
-      - routeTable:
-          labels:
-            - api: partner-api
+    - routeTable:
+        labels:
+          partners-group: true
     usagePlans:
-      - name: bronze
-      - name: silver
-      - name: gold
+    - name: bronze
+    - name: silver
+    - name: gold

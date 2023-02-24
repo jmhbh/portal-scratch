@@ -5,7 +5,9 @@ metadata:
  name: customer-banking-api-rt
  namespace: istio-gateway-ns
 labels:
-  api: customer-api
+  portal: sample-bank-portal
+  customers-group: true
+  partners-group: true
 spec:
   hosts:
     - "bank.io"
