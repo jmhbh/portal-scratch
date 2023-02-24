@@ -1,0 +1,27 @@
+# This is not the final version of the group just using approach 1 in this design doc - https://soloio.slab.com/posts/portal-user-authentication-authorization-design-doc-75w10xtj#hjlt7-proposed-approach-1-define-which-usage-plans-a-group-has-access-to-in-the-group-cr
+# for this use case
+apiVersion: apimanagement.gloo.solo.io/v2
+kind: Group
+metadata:
+  name: partner-group
+  namespace: gloo-mesh
+labels:
+  portal: sample-bank-portal
+spec:
+  name: partner-group
+  description: a group for users accessing the partner APIs
+  groupNames:
+    - partner-group-1
+  accessLevel:
+    apis:
+      - routeTable:
+          labels:
+            - api: customer-api
+      - routeTable:
+          name: partner-registration-api 
+          namespace: partners
+          cluster: cluster-1
+    usagePlans:
+      - name: bronze
+      - name: silver
+      - name: gold

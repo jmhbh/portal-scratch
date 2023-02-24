@@ -1,0 +1,14 @@
+# This is not the responsibility of a Portal Admin to configure if the customer is already using ext auth
+apiVersion: admin.gloo.solo.io/v2
+kind: ExtAuthServer
+metadata:
+  name: ext-auth-server
+  namespace: gloo-mesh-addons
+spec:
+  destinationServer:
+    ref:
+      cluster: cluster-1
+      name: ext-auth-service
+      namespace: gloo-mesh-addons
+    port:
+      name: grpc

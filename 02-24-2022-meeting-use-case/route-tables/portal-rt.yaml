@@ -1,0 +1,35 @@
+# Configuring this resource is a responsibility of the Portal Admin, or we can provide a template
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+ name: portal-rt
+ namespace: istio-gateway-ns
+spec:
+  hosts:
+    - "bank.portal.io"
+  defaultDestination:
+    port:
+      number: 9080
+    ref:
+      name: gloo-mesh-portal-server
+      namespace: gloo-mesh
+      cluster: cluster-1
+  http:
+  - forwardTo:
+    name: authn
+    labels:
+      oauth: "true" # apply ext auth policy
+    matchers:
+      - uri:
+         prefix: /v1/login
+      - uri:
+         prefix: /v1/logout
+  - forwardTo:
+    name: no-auth
+    matchers:
+      - uri:
+          prefix: /v1/login
+      - uri:
+          prefix: /v1/logout  
+  virtualGateways:
+    - name: north-south-gw

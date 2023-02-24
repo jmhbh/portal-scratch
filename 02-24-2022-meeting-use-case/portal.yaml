@@ -1,0 +1,34 @@
+apiVersion: apimanagement.gloo.solo.io/v2
+kind: Portal
+metadata:
+  name: sample-bank-portal
+  namespace: gloo-mesh
+spec:
+  visibilityLabel: "bank-portal-api-requires-authn"
+  domains:
+    - "bank.portal.io"
+  portalBackendSelector:
+    - selector:
+        namespace: gloo-mesh
+        cluster: cluster-1
+  usagePlans:
+    - name: bronze
+      displayName: "Bronze Plan"
+      description: "A basic usage plan"
+    - name: silver
+      displayName: "Silver Plan"
+      description: "A better usage plan"
+    - name: gold
+      displayName: "Gold Plan"
+      description: "The best usage plan!"
+  apis:
+    - routeTable:
+        labels:
+          - api: customer-api
+    - routeTable:
+        labels:
+          - api: partner-api
+  groups:
+    - selector:
+        labels:
+          - portal: sample-bank-portal

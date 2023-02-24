@@ -1,0 +1,20 @@
+# Configuring this resource is not a Portal Admin responsibility 
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+ name: customer-banking-api-rt
+ namespace: istio-gateway-ns
+labels:
+  api: customer-api
+spec:
+  hosts:
+    - "bank.io"
+  defaultDestination:
+    port:
+      number: 9080
+    ref:
+      name: customer-banking-api
+      namespace: customers
+      cluster: cluster-1
+  virtualGateways:
+    - name: north-south-gw

@@ -1,0 +1,21 @@
+# Configuring this resource is not a Portal Admin responsibility 
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+ name: partner-transaction-api-rt
+ namespace: istio-gateway-ns
+labels:
+  bank-portal-api-requires-authn: true # New label to indicate that the portal backend must check for presence of an IdToken before returning this API as a part of any request
+  api: partner-api
+spec:
+  hosts:
+    - "bank.io"
+  defaultDestination:
+    port:
+      number: 9080
+    ref:
+      name: partner-transaction-api
+      namespace: partners
+      cluster: cluster-1
+  virtualGateways:
+    - name: north-south-gw
