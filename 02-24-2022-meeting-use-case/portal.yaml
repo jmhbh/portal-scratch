@@ -21,20 +21,18 @@ spec:
     displayName: "Gold Plan"
     description: "The best usage plan!"
   # Visibility setting for the APIs in the portal
-  # TODO: think about this more
   visibility:
-    # Default visibility if the below label is not present
-    default: PUBLIC
-    # If a RT matches these labels, then it's the opposite of the default
-    labels:
+    # This will be an enum and controls the default visibility for portal APIs
+    state: Public
+    # The following will be a oneOf private or public and we will validate that 
+    # the specified label is the inverse of the state specified above and can be 
+    # used on route tables to override API visibility
+    privateLabel:
       portal-visibility: private
+    publicLabel:
+      portal-visibility: public
   apis:
   - routeTable:
       labels:
       - portal: sample-bank-portal
   groupClaimKey: groups
-  # TODO: product question: do we need this, explain the two options (current edge portal does not have this)
-  groups:
-  - selector:
-      labels:
-      - portal: sample-bank-portal

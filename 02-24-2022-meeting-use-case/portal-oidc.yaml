@@ -56,8 +56,6 @@ spec:
       namespace: gloo-mesh-addons
       cluster: cluster-1
     glooAuth:
-      # If no valid
-      booleanExpr: oidc || noAuth
       configs:
       - name: oidc
         oauth2:
@@ -81,5 +79,3 @@ spec:
                 maxAge: 3600
             headers:
               idTokenHeader: jwt
-      - name: noAuth
-        allowAlways: {}

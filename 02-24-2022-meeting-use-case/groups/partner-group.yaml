@@ -12,6 +12,9 @@ spec:
   description: a group for users accessing the partner APIs
   groupNames:
   - partners
+  # access level defines which APIs the user can view and when paired
+  # with usage plans will indicate which usage plans 
+  # users belonging to this group can create API keys for
   accessLevel:
     apis:
     - routeTable:
