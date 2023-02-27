@@ -13,8 +13,8 @@ spec:
   # These will be matched against the value of the group claim in the id_token
   groupNames:
   - customers
-  # access level defines which APIs the user can view and when paired
-  # with usage plans will indicate which usage plans 
+  # access level defines which APIs the user can view
+  # while usage plans will indicate which usage plans
   # users belonging to this group can create API keys for
   accessLevel:
     apis:
