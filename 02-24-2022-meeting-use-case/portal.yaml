@@ -22,15 +22,9 @@ spec:
     description: "The best usage plan!"
   # Visibility setting for the APIs in the portal
   visibility:
-    # This will be an enum and controls the default visibility for portal APIs
-    state: Public
-    # The following will be a oneOf private or public and we will validate that 
-    # the specified label is the inverse of the state specified above and can be 
-    # used on route tables to override API visibility
-    privateLabel:
-      portal-visibility: private
-    publicLabel:
-      portal-visibility: public
+    public: false # can be omitted as it defaults to false if not set
+    privateAPILabels:
+      - portal-visibility: private
   apis:
   - routeTable:
       labels:
